@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, TextInput } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, Alert } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-elements'
 import {
@@ -6,28 +6,47 @@ import {
     responsiveWidth,
     responsiveFontSize,
     useResponsiveWidth
-  } from "react-native-responsive-dimensions";
+} from "react-native-responsive-dimensions";
 
-export default function login() {
+export default function Login({ navigation }: { navigation: any }): JSX.Element {
+    const [userEmail, setUserEmail] = React.useState('');
+    const [userPassword, setUserPassword] = React.useState('');
+
+
     return (
+
         <SafeAreaView style={styles.screen}>
             <View style={styles.main}>
                 <Image style={styles.logo1} source={require("../img/sangeet-logo-2.png")} />
                 <View>
                     <TextInput
                         style={styles.input}
-                        // onChangeText={onChangeText}
-                        value={"Enter user name"}
+                        onChangeText={(UserEmail) =>
+                            setUserEmail(UserEmail)
+                        }
+                        placeholder='Enter User Name'
                     />
                     <TextInput
                         style={styles.input}
-                        // onChangeText={onChangeText}
-                        value={"Enter Password"}
+                        onChangeText={(userPassword) =>
+                            setUserPassword(userPassword)
+                        }
+                        placeholder='Enter Password'
                     /></View>
                 <View>
                     <Button
                         buttonStyle={styles.btn}
                         title="Sign in"
+                        onPress={() => {
+                            if (userEmail == "aryan0148" && userPassword == "123") {
+                                navigation.navigate("Home")
+                            }
+                            else {
+                                Alert.alert('Enter correct username and password')
+                            }
+                        }
+
+                        }
                     />
                 </View>
             </View>
@@ -43,36 +62,36 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
     },
     main: {
-        flex:1,
+        flex: 1,
         flexDirection: 'column',
-        justifyContent:'center'
+        justifyContent: 'center'
     },
 
     logo1: {
         alignSelf: 'center',
-        marginVertical:responsiveHeight(2),
-        height:responsiveWidth(40),
-        width:responsiveWidth(40)
+        marginVertical: responsiveHeight(2),
+        height: responsiveWidth(40),
+        width: responsiveWidth(40)
     },
 
     input: {
         backgroundColor: 'white',
-        color: 'black',
+        // color: 'black',
         height: 40,
         width: '80%',
         margin: 12,
         borderWidth: 1,
         padding: 10,
         alignSelf: 'center',
-        borderRadius:30
+        borderRadius: 30
     },
     btn: {
-        marginVertical:responsiveHeight(2),
+        marginVertical: responsiveHeight(2),
         width: '80%',
         alignSelf: 'center',
-        backgroundColor:'#11C0D3',
-        height:responsiveHeight(5),
-        borderRadius:30
+        backgroundColor: '#11C0D3',
+        height: responsiveHeight(5),
+        borderRadius: 30
     }
 
 
