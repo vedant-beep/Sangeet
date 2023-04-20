@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity,ScrollView } from 'react-native'
+import React, { useEffect } from 'react'
 import { Button } from 'react-native-elements'
 import {
   responsiveHeight,
@@ -9,8 +9,32 @@ import {
 } from "react-native-responsive-dimensions";
 
 export default function Home({ navigation }: { navigation: any }): JSX.Element {
+  const [text, setText] = React.useState('');
+  useEffect(() => {
+    let hours = new Date().getHours();
+    console.log()
+    if (hours < 12) {
+      setText('Good Morning')
+    }
+    else if (hours < 16) {
+      setText('Good Afternoon')
+    }
+    else if (hours < 20) {
+      setText('Good Evening')
+    }
+    else {
+      setText('Good Night')
+    }
+  })
+
+
+
   return (
     <SafeAreaView style={styles.screen}>
+      <View style={styles.main}>
+
+        <Text style={styles.text1}>{text}</Text>
+      </View>
       <View style={styles.main}>
         <View><Image source={require("../img/sangeetlogo.png")} /></View>
       </View>
@@ -29,7 +53,7 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
         </TouchableOpacity>
       </View>
       <View style={styles.main}>
-      <TouchableOpacity onPress={() =>
+        <TouchableOpacity onPress={() =>
           navigation.navigate("Song")
         }>
           <Image style={styles.logo1} source={require("../img/chillmix.png")} />
@@ -41,6 +65,38 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
         </TouchableOpacity>
 
       </View>
+      <View>
+
+        <Text style={styles.text1}>Popular artists</Text>
+      </View>
+
+
+      <View style={styles.main}>
+        <ScrollView horizontal={true}>
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("Song")
+        }>
+          <Image style={styles.logo2} source={require("../img/arijit.png")} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("Song")
+        }>
+          <Image style={styles.logo2} source={require("../img/kk.png")} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("Song")
+        }>
+          <Image style={styles.logo2} source={require("../img/ed.png")} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("Song")
+        }>
+          <Image style={styles.logo2} source={require("../img/justin.png")} />
+        </TouchableOpacity>
+        </ScrollView>
+      </View>
+
+
     </SafeAreaView>
   )
 }
@@ -50,14 +106,13 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'yellow',
+    backgroundColor: 'black',
+    // backgroundColor: 'white',
     flexDirection: 'column',
   },
   main: {
-    // flex: 1,
-    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
 
   logo1: {
@@ -85,7 +140,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#11C0D3',
     height: responsiveHeight(5),
     borderRadius: 30
-  }
+  },
+  text1: {
+    fontSize: responsiveFontSize(3),
+    color: 'white',
+    // color:'black',
+    fontWeight: 'bold',
+    // alignSelf:'center'
+  },
+  logo2: {
+    alignSelf: 'center',
+    borderRadius:100,
+    margin:10,
+    // marginVertical: responsiveHeight(2),
+    height: responsiveWidth(40),
+    width: responsiveWidth(40)
+  },
 
 
 })

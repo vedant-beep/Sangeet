@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, Alert } from 'react-native'
-import React from 'react'
+import React,{ useEffect } from 'react'
 import { Button } from 'react-native-elements'
 import {
     responsiveHeight,
@@ -12,7 +12,9 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
     const [userEmail, setUserEmail] = React.useState('');
     const [userPassword, setUserPassword] = React.useState('');
 
-
+    useEffect(()=>{
+       if(userEmail!=""){navigation.navigate("Home")}
+      },[])
     return (
 
         <SafeAreaView style={styles.screen}>
@@ -20,6 +22,7 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                 <Image style={styles.logo1} source={require("../img/sangeet-logo-2.png")} />
                 <View>
                     <TextInput
+                        value='aryan0148'
                         style={styles.input}
                         onChangeText={(UserEmail) =>
                             setUserEmail(UserEmail)
@@ -27,6 +30,7 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                         placeholder='Enter User Name'
                     />
                     <TextInput
+                    value='123'
                         style={styles.input}
                         onChangeText={(userPassword) =>
                             setUserPassword(userPassword)
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
 
     logo1: {
         alignSelf: 'center',
-        marginVertical: responsiveHeight(2),
+        // marginVertical: responsiveHeight(2),
         height: responsiveWidth(40),
         width: responsiveWidth(40)
     },
