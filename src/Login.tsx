@@ -12,6 +12,26 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
     const [userEmail, setUserEmail] = React.useState('');
     const [userPassword, setUserPassword] = React.useState('');
 
+    const callApi = ()=>{
+        let myBody = new URLSearchParams({
+            grant_type: 'client_credentials',
+            client_id: 'db424373ccc24f799d01c37db6f0bbc5',
+            client_secret: 'a3298213809443f0b8b7ee7a9b4fde63'
+        }).toString()
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: myBody
+          };
+      console.log(options);
+      
+          fetch('https://accounts.spotify.com/api/token', options)
+            .then(response => response.json())
+
+            .then(response=>console.log("second response "+JSON.stringify(response)))
+            .catch(err => console.error(err));
+    }
+
     useEffect(()=>{
        if(userEmail!=""){navigation.navigate("Home")}
       },[])
@@ -44,6 +64,7 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                         onPress={() => {
                             if (userEmail == "aryan0148" && userPassword == "123") {
                                 navigation.navigate("Home")
+                                callApi();
                             }
                             else {
                                 Alert.alert('Enter correct username and password')
@@ -97,6 +118,5 @@ const styles = StyleSheet.create({
         height: responsiveHeight(5),
         borderRadius: 30
     }
-
 
 })
