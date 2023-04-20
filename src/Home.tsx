@@ -31,6 +31,7 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
 
   return (
     <SafeAreaView style={styles.screen}>
+      <ScrollView>
       <View style={styles.main}>
 
         <Text style={styles.text1}>{text}</Text>
@@ -95,8 +96,7 @@ export default function Home({ navigation }: { navigation: any }): JSX.Element {
         </TouchableOpacity>
         </ScrollView>
       </View>
-
-
+      </ScrollView>
     </SafeAreaView>
   )
 }
