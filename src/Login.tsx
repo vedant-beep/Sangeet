@@ -42,7 +42,6 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                 <Image style={styles.logo1} source={require("../img/sangeet-logo-2.png")} />
                 <View>
                     <TextInput
-                        value='aryan0148'
                         style={styles.input}
                         onChangeText={(UserEmail) =>
                             setUserEmail(UserEmail)
@@ -50,7 +49,6 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                         placeholder='Enter User Name'
                     />
                     <TextInput
-                    value='123'
                         style={styles.input}
                         onChangeText={(userPassword) =>
                             setUserPassword(userPassword)
@@ -62,7 +60,7 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                         buttonStyle={styles.btn}
                         title="Sign in"
                         onPress={() => {
-                            if (userEmail == "aryan0148" && userPassword == "123") {
+                            if (userEmail == "a" && userPassword == "a") {
                                 navigation.navigate("Home")
                                 callApi();
                             }
