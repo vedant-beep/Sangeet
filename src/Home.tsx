@@ -7,12 +7,14 @@ import {
   responsiveFontSize,
   useResponsiveWidth
 } from "react-native-responsive-dimensions";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Home({ navigation }: { navigation: any }): JSX.Element {
+export default function Home({ route,navigation }: any): JSX.Element {
   const [text, setText] = React.useState('');
+  let {token} = route.params;
   useEffect(() => {
     let hours = new Date().getHours();
-    console.log()
+    console.log('access token '+token);
     if (hours < 12) {
       setText('Good Morning')
     }

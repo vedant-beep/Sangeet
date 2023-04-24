@@ -7,11 +7,23 @@ import {
     responsiveFontSize,
     useResponsiveWidth
 } from "react-native-responsive-dimensions";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }: { navigation: any }): JSX.Element {
     const [userEmail, setUserEmail] = React.useState('');
     const [userPassword, setUserPassword] = React.useState('');
-
+    const [accessToken, setAccessToken] = React.useState('');
+    
+let myname = 'vedant';
+const storeKey = 'access_token';
+const storeData = async (value:string) => {
+    try {
+      await AsyncStorage.setItem(storeKey, value)
+    } catch (e) {
+      console.log("error "+e);
+    }
+  }
+  
     const callApi = ()=>{
         let myBody = new URLSearchParams({
             grant_type: 'client_credentials',
@@ -28,10 +40,26 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
           fetch('https://accounts.spotify.com/api/token', options)
             .then(response => response.json())
 
-            .then(response=>console.log("second response "+JSON.stringify(response)))
+            .then(response=>{
+                navigation.navigate("Home",{token:response.access_token})
+                
+                // console.log(response.access_token);
+                console.log('accessToken'+accessToken)
+                
+            })
             .catch(err => console.error(err));
     }
-
+    const getNewReleases = ()=>{
+        let myoptions = {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer  ${accessToken}` }
+          };
+        fetch('https://accounts.spotify.com/api/token', myoptions)
+            .then(response => response.json())
+    
+            .then(response=>response.albums.items[0].id)
+            .catch(err => console.error(err));
+    }
     useEffect(()=>{
        if(userEmail!=""){navigation.navigate("Home")}
       },[])
@@ -61,8 +89,8 @@ export default function Login({ navigation }: { navigation: any }): JSX.Element 
                         title="Sign in"
                         onPress={() => {
                             if (userEmail == "a" && userPassword == "a") {
-                                navigation.navigate("Home")
                                 callApi();
+                               
                             }
                             else {
                                 Alert.alert('Enter correct username and password')

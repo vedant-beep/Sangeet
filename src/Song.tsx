@@ -4,6 +4,13 @@ import SongListItem from './SongListItem'
 
 export default function Song() {
   return (
-    <SongListItem/>
+    <>
+    <SongListItem title='Kahani Suno 2.0'/>
+    <SongListItem title='Perfect'/>
+    <SongListItem title='Calm Down'/>
+    <SongListItem title='Flower'/>
+    <SongListItem title='Despacito'/>
+    <SongListItem title='Kesariya'/>
+    </>
   )
 }
