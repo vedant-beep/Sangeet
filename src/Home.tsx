@@ -1,31 +1,53 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, TouchableOpacity,ScrollView } from 'react-native'
 import React, { useEffect } from 'react'
 import { Button } from 'react-native-elements'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
-  useResponsiveWidth
 } from "react-native-responsive-dimensions";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {connect} from 'react-redux';
+import store from './store/store';
+import {connect} from 'react-redux';
 
-export default function Home({ route,navigation }: any): JSX.Element {
+type user = {
+  userName: string;
+};
+
+
+
+export default function Home({route,navigation }:any,props: user) {
   const [text, setText] = React.useState('');
-  let {token} = route.params;
+  // let userData
+  // const getUser = async () => {
+  //   try {
+  //      userData = await AsyncStorage.getItem('access_token')
+  //   } catch (error) {
+  //    console.log(error); 
+  //   }
+  // };
+  // console.log(props.userName.access_token)
+
+  
+  let {accessToken}=route.params
+  let { username } = route.params
+
+  
   useEffect(() => {
     let hours = new Date().getHours();
-    console.log('access token '+token);
+    console.log()
     if (hours < 12) {
-      setText('Good Morning')
+      setText('Good morning '+username)
     }
     else if (hours < 16) {
-      setText('Good Afternoon')
+      setText('Good afternoon '+username)
     }
     else if (hours < 20) {
-      setText('Good Evening')
+      setText('Good evening '+username)
     }
     else {
-      setText('Good Night')
+      setText('Good night '+username)
     }
   })
 
@@ -77,31 +99,50 @@ export default function Home({ route,navigation }: any): JSX.Element {
       <View style={styles.main}>
         <ScrollView horizontal={true}>
         <TouchableOpacity onPress={() =>
-          navigation.navigate("Song")
+          navigation.navigate("Song",{accessToken:accessToken, name:'arijit'})
         }>
           <Image style={styles.logo2} source={require("../img/arijit.png")} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() =>
-          navigation.navigate("Song")
+          navigation.navigate("Song",{accessToken:accessToken, name:'kk'})
         }>
           <Image style={styles.logo2} source={require("../img/kk.png")} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() =>
-          navigation.navigate("Song")
+          navigation.navigate("Song",{accessToken:accessToken, name:'ed sheeran'})
         }>
           <Image style={styles.logo2} source={require("../img/ed.png")} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() =>
-          navigation.navigate("Song")
+        
+          navigation.navigate("Song",{accessToken:accessToken, name:'justin'})
         }>
           <Image style={styles.logo2} source={require("../img/justin.png")} />
         </TouchableOpacity>
         </ScrollView>
       </View>
+
+      <View style={styles.r}></View>
+      
       </ScrollView>
+      <View style={styles.footer}>
+      <TouchableOpacity onPress={() =>
+          navigation.navigate("Home")
+        }>
+          <Image style={styles.logo3} source={require("../img/home1.png")} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() =>
+          navigation.navigate("Search",{accessToken:accessToken})
+        }>
+          <Image style={styles.logo3} source={require("../img/search.png")} />
+        </TouchableOpacity>
+        
+      </View>
     </SafeAreaView>
   )
 }
+
+
 
 const styles = StyleSheet.create({
 
@@ -159,5 +200,23 @@ const styles = StyleSheet.create({
     width: responsiveWidth(40)
   },
 
-
+  footer:{
+    backgroundColor:'white',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    position:'absolute',
+    bottom:0,
+    width:'100%'
+  },
+  logo3: {
+  
+    margin:10,
+    // marginVertical: responsiveHeight(2),
+    height: responsiveWidth(5),
+    width: responsiveWidth(5)
+  },
+  r:{flex:1,
+    height:50,
+    width:'100%'
+  }
 })

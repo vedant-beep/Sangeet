@@ -1,29 +1,28 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, Alert } from 'react-native'
 import React,{ useEffect } from 'react'
 import { Button } from 'react-native-elements'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import store from './store/store';
+import {USERNAME} from './actions/UserActions';
+// import SyncStorage from 'sync-storage';
 import {
     responsiveHeight,
     responsiveWidth,
     responsiveFontSize,
     useResponsiveWidth
 } from "react-native-responsive-dimensions";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function Login({ navigation }: { navigation: any }): JSX.Element {
     const [userEmail, setUserEmail] = React.useState('');
     const [userPassword, setUserPassword] = React.useState('');
     const [accessToken, setAccessToken] = React.useState('');
     
-let myname = 'vedant';
-const storeKey = 'access_token';
-const storeData = async (value:string) => {
-    try {
-      await AsyncStorage.setItem(storeKey, value)
-    } catch (e) {
-      console.log("error "+e);
-    }
-  }
-  
+    const updateUserName = () => {
+        store.dispatch({type: USERNAME, payload:userEmail});
+      };
+    
+
     const callApi = ()=>{
         let myBody = new URLSearchParams({
             grant_type: 'client_credentials',
@@ -39,27 +38,15 @@ const storeData = async (value:string) => {
       
           fetch('https://accounts.spotify.com/api/token', options)
             .then(response => response.json())
+            // .then(response => console.log(response))
+            // .then(response=>{navigation.navigate("Home",{name:userEmail}),storeUser(response.access_token)})
+            
+            // .then(response=> store.dispatch({type: USERNAME, payload:response} ))
+            .then(response=>{navigation.navigate("Home",{accessToken:response.access_token,username:userEmail})})
+            .catch(err => console.error(err));
+            
+    }
 
-            .then(response=>{
-                navigation.navigate("Home",{token:response.access_token})
-                
-                // console.log(response.access_token);
-                console.log('accessToken'+accessToken)
-                
-            })
-            .catch(err => console.error(err));
-    }
-    const getNewReleases = ()=>{
-        let myoptions = {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer  ${accessToken}` }
-          };
-        fetch('https://accounts.spotify.com/api/token', myoptions)
-            .then(response => response.json())
-    
-            .then(response=>response.albums.items[0].id)
-            .catch(err => console.error(err));
-    }
     useEffect(()=>{
        if(userEmail!=""){navigation.navigate("Home")}
       },[])
@@ -88,9 +75,10 @@ const storeData = async (value:string) => {
                         buttonStyle={styles.btn}
                         title="Sign in"
                         onPress={() => {
-                            if (userEmail == "a" && userPassword == "a") {
+                            if (userEmail == "aryan" && userPassword == "a") {
+                                updateUserName();
                                 callApi();
-                               
+                                
                             }
                             else {
                                 Alert.alert('Enter correct username and password')
