@@ -24,11 +24,13 @@ import Home from './src/Home';
 import Song from './src/Song';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Search from './src/Search';
+import Play from './src/Play';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
-  const [status, setStatus] = useState(true);
+  // const [status, setStatus] = React.useState(true);//
   return (
     <>
       {/* <Login /> */}
@@ -41,6 +43,8 @@ function App() {
           />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Song" component={Song} />
+          <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="Play" component={Play} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
@@ -48,3 +52,4 @@ function App() {
 }
 
 export default App;
+
